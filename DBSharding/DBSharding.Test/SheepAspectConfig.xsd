@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SheepAspectConfig"
+    targetNamespace="urn:sheepaspect-config-1.0"
+    elementFormDefault="qualified"
+    xmlns="urn:sheepaspect-config-1.0"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+   <xs:element name="sheepaspect-config">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="aspects" minOccurs="1" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="assemblies" minOccurs="1" maxOccurs="1" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+       <xs:element name="weave" minOccurs="1" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="assemblies" minOccurs="1" maxOccurs="1" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="assemblies">
+    <xs:annotation>
+      <xs:documentation>
+        There are 3 possible combinations of assemblies
+        1 - file only: SheepAspect will read the assembly from the .exe or .dll file.
+        2 - files: SheepAspect will find all files matching the specified pattern under the specified directory
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:choice minOccurs="1" maxOccurs="unbounded">
+        <xs:element ref="include" />
+        <xs:element ref="directory" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="include">
+    <xs:simpleType>
+      <xs:restriction base="xs:string" />
+    </xs:simpleType>
+  </xs:element>
+  
+  <xs:element name="directory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="include" minOccurs="1" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute name="path" use="required" type="xs:anyURI" />
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

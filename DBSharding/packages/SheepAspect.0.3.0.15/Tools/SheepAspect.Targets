@@ -1,0 +1,6 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+ <UsingTask TaskName="PostCompileWeaveTask" AssemblyFile=".\SheepAspect.Tasks.dll" />
+  <Target Name="AfterBuild">
+    <PostCompileWeaveTask ConfigFile="$(MSBuildProjectDirectory)\$(OutputPath)SheepAspect.config" />
+  </Target>
+</Project>

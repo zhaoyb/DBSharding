@@ -1,0 +1,12 @@
+D:\Project\DBSharding\DBSharding\bin\Debug\DBSharding.dll
+D:\Project\DBSharding\DBSharding\bin\Debug\DBSharding.pdb
+D:\Project\DBSharding\DBSharding\bin\Debug\Antlr3.Runtime.dll
+D:\Project\DBSharding\DBSharding\bin\Debug\Mono.Cecil.dll
+D:\Project\DBSharding\DBSharding\bin\Debug\Mono.Cecil.Mdb.dll
+D:\Project\DBSharding\DBSharding\bin\Debug\Mono.Cecil.Pdb.dll
+D:\Project\DBSharding\DBSharding\bin\Debug\Mono.Cecil.Rocks.dll
+D:\Project\DBSharding\DBSharding\bin\Debug\SheepAspect.dll
+D:\Project\DBSharding\DBSharding\bin\Debug\SheepAspect.xml
+D:\Project\DBSharding\DBSharding\obj\Debug\DBSharding.dll
+D:\Project\DBSharding\DBSharding\obj\Debug\DBSharding.pdb
+D:\Project\DBSharding\DBSharding\obj\Debug\DBSharding.csprojResolveAssemblyReference.cache

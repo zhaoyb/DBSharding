@@ -1,0 +1,399 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SheepAspect</name>
+    </assembly>
+    <members>
+        <member name="T:SheepAspect.Framework.AspectPerThisTypeAttribute">
+            <summary>
+            Indicate that an aspect class will always be instantiated for every advice execution. Not recommended.
+            </summary>
+        </member>
+        <member name="T:SheepAspect.Framework.AspectAttribute">
+            <summary>
+            Indicate that a class is a SheepAspect aspect class. By default, this attribute is the same as <see cref="T:SheepAspect.Framework.SingletonAspectAttribute"/>.
+            </summary>
+        </member>
+        <member name="T:SheepAspect.Framework.SelectPropertyMethodsAttribute">
+            <summary>
+            <para>Produces a <see cref="T:SheepAspect.Pointcuts.Impl.PropertyMethodPointcut"/></para>
+            <example>
+            Example:
+            <code>
+            [SelectPropertyMethods("Getter &amp; Name:'Is*' &amp; InType:Namespace:'Foo.Bar.*")]
+            public void FooGettersPointcut(){}
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.SelectPropertyMethodsAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of this <see cref="T:SheepAspect.Framework.SelectPropertiesAttribute"/> class.
+            </summary>
+            <param name="saql">SAQL for <see cref="T:SheepAspect.Pointcuts.Impl.PropertyPointcut"/></param>
+        </member>
+        <member name="T:SheepAspect.Framework.DeclareAttributesAttribute">
+            <summary>
+            <para>This advice statically adds attributes to target types, methods, properties, fields, etc.</para>
+            <example>
+            Example, to add <c>[Foo(Bar="sheep")]</c> and <c>[Boom("Blah")]</c> attributes into all properties matched by "SomePropertiesPointcut":
+            <code>
+            [DeclareAttributes("SomePropertiesPointcut")]
+            [Foo(Bar="sheep")]
+            [Boom("Blah")]
+            public object DummyMeaninglessProperty {get; set;}
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.DeclareAttributesAttribute.#ctor(System.String[])">
+            <summary>
+            <para>Initializes a new instance of this <see cref="T:SheepAspect.Framework.DeclareAttributesAttribute"/> class.</para>
+            <para>Accepts: <see cref="T:SheepAspect.Pointcuts.Impl.TypePointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.MethodPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.PropertyPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.PropertyMethodPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.MethodPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.FieldPointcut"/>.</para>
+            </summary>
+            <param name="pointcutRefs">Names of target pointcuts</param>
+        </member>
+        <member name="T:SheepAspect.Framework.DeclareMixinAttribute">
+            <summary>
+            <para>Add interface implementations to existing types.</para>
+            <para>Attaching on a factory method:
+            <code>
+            [DeclareMixins("TypePointcutName")]
+            public &lt;T:interface&gt; FooMethod(&lt;optional T:object&gt; instance) 
+            {
+                return new InterfaceImplementation();
+            }
+            </code>
+            </para>
+            <para>Attaching on a field:
+            <code>
+            [DeclareMixins("TypePointcutName")]
+            public &lt;T:interface&gt; FooField;
+            </code>
+            </para>
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.DeclareMixinAttribute.#ctor(System.String[])">
+            <summary>
+            Initializes a new instance of this <see cref="T:SheepAspect.Framework.DeclareMixinAttribute"/> class.
+            <para>Accepts: <see cref="T:SheepAspect.Pointcuts.Impl.TypePointcut"/>.</para>
+            </summary>
+            <param name="pointcutRefs">Names of target <see cref="T:SheepAspect.Pointcuts.Impl.TypePointcut"/>s.</param>
+        </member>
+        <member name="P:SheepAspect.Framework.DeclareMixinAttribute.AdditionalInterfaces">
+            <summary>
+            Other interface types to be mixed-in into the target type.
+            Make sure the implementation returned by this advice also implements this interface.
+            </summary>
+        </member>
+        <member name="P:SheepAspect.Framework.DeclareMixinAttribute.AsFactory">
+            <summary>
+            <para>If set to true, each target instance will only inquire this aspect once to retrieve a mixin implementation.
+            All subsequent invocations on that instance will be directed to the same mixin implementation reference. 
+            Set to false to inquire this aspect on every invocation.</para>
+            <para>Default is <c>true</c> on methods, or <c>false</c> on fields.</para>
+            </summary>
+        </member>
+        <member name="T:SheepAspect.Framework.SelectConstructorsAttribute">
+            <summary>
+            <para>Produces a <see cref="T:SheepAspect.Pointcuts.Impl.ConstructorPointcut"/> matching type constructors</para>
+            <example>
+            Example:
+            <code>
+            [SelectConstructors("InType:Namespace:'Foo.Bar.*" &amp; Args:[Implements:Name:'I*Repository', 'System.String'])]
+            public void FooConstructorsPointcut(){}
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.SelectConstructorsAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of this <see cref="T:SheepAspect.Framework.SelectConstructorsAttribute"/> class.
+            </summary>
+            <param name="saql">SAQL expression for <see cref="T:SheepAspect.Pointcuts.Impl.ConstructorPointcut"/></param>
+        </member>
+        <member name="T:SheepAspect.Framework.UseFactoryAttribute">
+            <summary>
+            Specify <see cref="T:SheepAspect.Core.IAspectFactory"/> type for this aspect class.
+            Aspect class without this attribute will use the value defined in <see cref="T:SheepAspect.Runtime.AspectRuntime"/>.<see cref="P:SheepAspect.Runtime.AspectRuntime.Provider"/>.<see cref="P:SheepAspect.Core.IAspectProvider.DefaultFactory"/>.
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.UseFactoryAttribute.#ctor(System.Type)">
+            <summary>
+            Initializes a new class of this <see cref="T:SheepAspect.Framework.UseFactoryAttribute"/> class.
+            </summary>
+            <param name="factoryType">The implementation type of <see cref="T:SheepAspect.Core.IAspectFactory"/>. It must have a public default constructor.</param>
+        </member>
+        <member name="P:SheepAspect.Core.IWeaver.Priority">
+            <summary>
+            Weavers with lower priority values will get processed earlier during compilation
+            This is useful to ensure certain weavers only get executed after all others, hence ensuring it will not get overruled by accident
+            </summary>
+        </member>
+        <member name="T:SheepAspect.Framework.SingletonAspectAttribute">
+            <summary>
+            Indicate that an aspect class will only be instantiated once during the lifetime of the application.
+            </summary>
+        </member>
+        <member name="T:SheepAspect.Framework.AspectPerThisAttribute">
+            <summary>
+            Indicate that the instance of an aspect class will be associated with the <see cref="P:SheepAspect.Runtime.IJointPoint.This"/> of the jointpoint.
+            </summary>
+        </member>
+        <member name="P:SheepAspect.Framework.AspectPerThisAttribute.ActivateOnPointcut">
+            <summary>
+            <para>Optional: name of a pointcut. If specified, the aspect will only be activated (and bound to the This instance) when the selected jointpoints are triggered.</para>
+            <para>When ommitted, the aspect will be auto-activated on the first instance it's required.</para>
+            <para>Accepts: <see cref="T:SheepAspect.Pointcuts.Impl.MethodPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.PropertyPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.PropertyMethodPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.ConstructorPointcut"/>
+            <see cref="T:SheepAspect.Pointcuts.Impl.CallMethodPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.GetFieldPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.SetFieldPointcut"/>.</para>
+            </summary>
+        </member>
+        <member name="T:SheepAspect.Framework.SelectTypesAttribute">
+            <summary>
+            <para>Produces a <see cref="T:SheepAspect.Pointcuts.Impl.TypePointcut"/>.</para>
+            <example>
+            Example:
+            <code>
+            [SelectTypes("Name:'*Service' &amp; Namespace:'Foo.Bar.*")]
+            public void FooServiceTypesPointcut(){}
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.SelectTypesAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of this <see cref="T:SheepAspect.Framework.SelectTypesAttribute"/> class.
+            </summary>
+            <param name="saql">SAQL for <see cref="T:SheepAspect.Pointcuts.Impl.TypePointcut"/></param>
+        </member>
+        <member name="M:SheepAspect.Framework.SelectTypesAttribute.#ctor(System.Type[])">
+            <summary>
+            Initializes a new instance of this <see cref="T:SheepAspect.Framework.SelectTypesAttribute"/> class.
+            </summary>
+            <param name="types">Types to be selected by this <see cref="T:SheepAspect.Pointcuts.Impl.TypePointcut"/></param>
+        </member>
+        <member name="T:SheepAspect.Framework.SelectFieldsAttribute">
+            <summary>
+            <para>Produces a <see cref="T:SheepAspect.Pointcuts.Impl.FieldPointcut"/></para>
+            <example>
+            Example:
+            <code>
+            [SelectFields("Name:'_is*' &amp; InType:Namespace:'Foo.Bar.*")]
+            public void FooFieldsPointcut(){}
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.SelectFieldsAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of this <see cref="T:SheepAspect.Framework.SelectFieldsAttribute"/> class.
+            </summary>
+            <param name="saql">SAQL expression for <see cref="T:SheepAspect.Pointcuts.Impl.FieldPointcut"/></param>
+        </member>
+        <member name="M:SheepAspect.Pointcuts.ICanRef.WhereRef(SheepAspect.Core.IPointcut,SheepAspect.Core.AspectDefinition,System.String)">
+            <summary>
+            Support for @otherPointcut
+            </summary>
+            <param name="referrer">The top-level pointcut, in case the reference is invalid and we want the exception to explain the source of the trouble</param>
+            <param name="aspect">Aspect that owns the referenced pointcut</param>
+            <param name="pointcutName">Name of the referenced pointcut</param>
+        </member>
+        <member name="M:SheepAspect.Pointcuts.Impl.PointcutBase`1.WhereRef(SheepAspect.Core.IPointcut,SheepAspect.Core.AspectDefinition,System.String)">
+            <summary>
+            Support for @otherPointcut
+            </summary>
+            <param name="referrer">The top-level pointcut, in case the reference is invalid and we want the exception to explain the source of the trouble</param>
+            <param name="aspect">Aspect that owns the referenced pointcut</param>
+            <param name="pointcutName">Name of the referenced pointcut</param>
+        </member>
+        <member name="T:SheepAspect.Framework.AroundAttribute">
+            <summary>
+            <para>Surround the execution of methods, properties, method-calls, field gets/sets instructions, etc.</para>
+            <para>Usage signature:
+            <code>
+            [Around("PointcutName")]
+            public &lt;void | T:object&gt; FooMethod(&lt;T:IJointPoint&gt; jp) { ... }
+            </code>
+            </para>
+            <example>
+            Example:
+            <code>
+            [Around("FooPointcut")]
+            public int AroundFooPointcut(MethodJointPoint jointPoint)
+            {
+                ....
+                jointPoint.Execute();
+                ...
+            }
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.AroundAttribute.#ctor(System.String[])">
+            <summary>
+            Initializes a new instance of this <see cref="T:SheepAspect.Framework.AroundAttribute"/> class.
+            <para>Accepts: <see cref="T:SheepAspect.Pointcuts.Impl.MethodPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.PropertyPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.PropertyMethodPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.ConstructorPointcut"/>
+            <see cref="T:SheepAspect.Pointcuts.Impl.CallMethodPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.GetFieldPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.SetFieldPointcut"/>.</para>
+            </summary>
+            <param name="pointcutRefs">Names of target pointcuts</param>
+        </member>
+        <member name="P:SheepAspect.Framework.AroundAttribute.Priority">
+            <summary>
+            Advices with lower priority values will be applied first.
+            Default: 100
+            </summary>
+        </member>
+        <member name="T:SheepAspect.Framework.SelectCallMethodsAttribute">
+            <summary>
+            <para>Produces a <see cref="T:SheepAspect.Pointcuts.Impl.CallMethodPointcut"/> that maches a code instruction of calling a method.</para>
+            <example>
+            Example:
+            <code>
+            [SelectCalMethods("Method: (Name:'Execute*' &amp; Type:Name:'*Service')")]
+            public void ServiceExecuteCallsPointcut(){}
+            </code>
+            (The example will match the line <c>emailService.ExecuteSend("Hello World!");</c> in the code)
+            </example>
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.SelectCallMethodsAttribute.#ctor(System.String)">
+            <summary>
+            Initializes new instance of <see cref="T:SheepAspect.Framework.SelectCallMethodsAttribute"/> class.
+            </summary>
+            <param name="saql">SAQL expression for <see cref="T:SheepAspect.Pointcuts.Impl.CallMethodPointcut"/></param>
+        </member>
+        <member name="T:SheepAspect.Framework.SelectSetFieldsAttribute">
+            <summary>
+            <para>Produces a <see cref="T:SheepAspect.Pointcuts.Impl.SetFieldPointcut"/> that maches a code instruction of setting a field.</para>
+            <example>
+            Example:
+            <code>
+            [SelectSetFields("Field:(Name:'_is*' &amp; InType:Name:'*Service'"))]
+            public void ServiceFieldSetsPointcut(){}
+            </code>
+            (The example will match the line <c>emailService._isActive = true</c> in the code)
+            </example>
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.SelectSetFieldsAttribute.#ctor(System.String)">
+            <summary>
+            Initializes new instance of this <see cref="T:SheepAspect.Framework.SelectSetFieldsAttribute"/> class.
+            </summary>
+            <param name="saql">SAQL expression for <see cref="T:SheepAspect.Pointcuts.Impl.GetFieldPointcut"/></param>
+        </member>
+        <member name="T:SheepAspect.Framework.SelectGetFieldsAttribute">
+            <summary>
+            <para>Produces a <see cref="T:SheepAspect.Pointcuts.Impl.GetFieldPointcut"/> that maches a code instruction of getting the value from a field.</para>
+            <example>
+            Example:
+            <code>
+            [SelectGetFields("Field:(Name:'_is*' &amp; InType:Name:'*Service'"))]
+            public void ServiceFieldGetsPointcut(){}
+            </code>
+            (The example will match the line <c>var isActive = emailService._isActive</c> in the code)
+            </example>
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.SelectGetFieldsAttribute.#ctor(System.String)">
+            <summary>
+            Initializes new instance of this <see cref="T:SheepAspect.Framework.SelectGetFieldsAttribute"/> class.
+            </summary>
+            <param name="saql">SAQL expression for <see cref="T:SheepAspect.Pointcuts.Impl.GetFieldPointcut"/></param>
+        </member>
+        <member name="T:SheepAspect.Framework.AspectPerCFlowAttribute">
+            <summary>
+            Indicate that the instance of an aspect class will live within the span of a particular control flow.
+            The control flows are defined by the pointcuts passed to the constructor of this attribute.
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.AspectPerCFlowAttribute.#ctor(System.String[])">
+            <summary>
+            <para>Initializes a new class of this <see cref="T:SheepAspect.Framework.AspectPerCFlowAttribute"/> class.</para>
+            <para>Accepts: <see cref="T:SheepAspect.Pointcuts.Impl.MethodPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.PropertyPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.PropertyMethodPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.ConstructorPointcut"/>
+            <see cref="T:SheepAspect.Pointcuts.Impl.CallMethodPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.GetFieldPointcut"/>, <see cref="T:SheepAspect.Pointcuts.Impl.SetFieldPointcut"/>.</para>
+            </summary>
+            <param name="pointcutRefs">
+            <para>Names of pointcuts that define the control flows that mark the scope of the aspect instance lifetime.</para>
+            </param>
+        </member>
+        <member name="T:SheepAspect.Framework.SelectMethodsAttribute">
+            <summary>
+            <para>Produces a <see cref="T:SheepAspect.Pointcuts.Impl.MethodPointcut"/></para>
+            <example>
+            Example:
+            <code>
+            [SelectMethods("Name:'Execute*' &amp; InType:Namespace:'Foo.Bar.*")]
+            public void FooMethodsPointcut(){}
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.SelectMethodsAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of this <see cref="T:SheepAspect.Framework.SelectMethodsAttribute"/> class.
+            </summary>
+            <param name="saql">SAQL for <see cref="T:SheepAspect.Pointcuts.Impl.MethodPointcut"/></param>
+        </member>
+        <member name="T:SheepAspect.Framework.SelectPropertiesAttribute">
+            <summary>
+            <para>Produces a <see cref="T:SheepAspect.Pointcuts.Impl.PropertyPointcut"/></para>
+            <para>To select property's getter and setter methods, see <see cref="T:SheepAspect.Framework.SelectPropertyMethodsAttribute"/> instead</para>
+            <example>
+            Example:
+            <code>
+            [SelectProperties("Name:'Is*' &amp; InType:Namespace:'Foo.Bar.*")]
+            public void FooPropertiesPointcut(){}
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:SheepAspect.Framework.SelectPropertiesAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of this <see cref="T:SheepAspect.Framework.SelectPropertiesAttribute"/> class.
+            </summary>
+            <param name="saql">SAQL for <see cref="T:SheepAspect.Pointcuts.Impl.PropertyPointcut"/></param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:SheepAspect.Framework.SelectPropertiesAttribute.SelectAccessorMethods" -->
+        <member name="T:SheepAspect.Framework.AspectTransientAttribute">
+            <summary>
+            Indicate that an aspect class will always be instantiated for every advice execution. Not recommended.
+            </summary>
+        </member>
+        <member name="M:SheepAspect.AroundAdvising.AroundWeaverBase.AppendCallDispatch(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.Cil.VariableDefinition,Mono.Cecil.GenericInstanceType)">
+            <summary>
+            Requires 2 items (object target, object this) in the evaulation stack
+            </summary>
+            <param name="il">IlProcessor, usually that of the target-method</param>
+            <param name="args">Args variable for dispatching</param>
+            <param name="jpStaticRef"></param>
+        </member>
+        <member name="M:SheepAspect.AroundAdvising.AroundWeaverBase.AppendInitializeStaticJp(Mono.Cecil.Cil.ILProcessor)">
+            <summary>
+            To be appended on the static constructor, initializing static StaticJp field
+            Already suppied as the first 2 arguments: AdviceInvoker, AdviceCallback
+            </summary>
+            <param name="il">IL processor of the static constructor</param>
+        </member>
+        <member name="P:SheepAspect.AroundAdvising.AroundWeaverBase.Priority">
+            <summary>
+            Weavers with lower priority values will get processed earlier during compilation
+            This is useful to ensure certain weavers only get executed after all others, hence ensuring it will not get overruled by accident
+            By default: 100
+            </summary>
+        </member>
+        <member name="M:SheepAspect.AroundAdvising.AroundMethodWeaver.AppendInitializeStaticJp(Mono.Cecil.Cil.ILProcessor)">
+            <summary>
+            To be appended on the static constructor, initializing static StaticJp field
+            Already suppied as the first 2 arguments: AdviceInvoker, AdviceCallback
+            </summary>
+            <param name="il">IL processor of the static constructor</param>
+        </member>
+        <member name="P:SheepAspect.LifecycleAdvising.PerFlowLifecycleWeaver.Priority">
+            <summary>
+            Weavers with lower priority values will get processed earlier during compilation
+            This is useful to ensure certain weavers only get executed after all others, hence ensuring it will not get overruled by accident
+            Priority value of FlowAspectLifecycleWeaver is 900, so it will be executed later than other MethodWeaverBase (by default: 100)
+            </summary>
+        </member>
+    </members>
+</doc>
