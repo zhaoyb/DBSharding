@@ -17,7 +17,6 @@ namespace DBSharding
         public static IDbConnection GetConnection()
         {
             IDbConnection conn = _connectionDic[local.Value];
-            conn.Open();
             return conn;
         }
 
